@@ -71,6 +71,3 @@ app.get('/auth/failed', (req, res) => {
 
 module.exports = app;
 
-if (require.main === module) {
-  app.listen(5000, () => console.log('Backend jalan di port 5000'));
-}
