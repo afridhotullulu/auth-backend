@@ -1,33 +1,16 @@
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-
 const app = express();
 
-// STEP 3 - MIDDLEWARE
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+app.get('/', (req, res) => {
+  res.send('Backend OK');
+});
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.get('/auth/google', (req, res) => {
+  res.send('Route google kebaca (NO ERROR)');
+});
 
-// STEP 4 - SERIALIZE
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user));
-
-// ROUTE LOGIN
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/failed' }),
-  (req, res) => {
-    res.send('Login berhasil');
-  }
-);
+app.get('/auth/google/callback', (req, res) => {
+  res.send('Callback kebaca (NO ERROR)');
+});
 
 module.exports = app;
