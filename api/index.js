@@ -1,13 +1,17 @@
 const express = require('express');
+const passport = require('passport');
+
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Backend OK');
-});
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
 
-// sementara test dulu
-app.get('/auth/google', (req, res) => {
-  res.send('Google route aktif');
-});
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/auth/failed', session: false }),
+  (req, res) => {
+    res.send('Login berhasil');
+  }
+);
 
 module.exports = app;
